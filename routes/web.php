@@ -25,13 +25,27 @@ Route::middleware('auth')->group(function () {
     // User Dashboard
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
 
-    // Admin Dashboard
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    // Admin Dashboard Route
+    Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-    // Category Management (Admin Only)
+    // Category Management Routes
+    Route::match(['get', 'post'], 'admin/product', [AdminController::class, 'addProduct'])->name('admin.products.add-product');
+    // Route to display the edit form
+    Route::get('admin/products/edit/{id}', [AdminController::class, 'editProduct'])->name('admin.products.edit');
+
+    // Route to handle the update operation
+    Route::put('admin/products/edit/{id}', [AdminController::class, 'updateProduct']);
+
+    // Delete product route
+    Route::delete('admin/products/delete/{id}', [AdminController::class, 'deleteProduct'])->name('admin.products.delete');
+    
+    // Category Management Routes
+    Route::match(['get', 'post'], 'admin/category/create', [AdminController::class, 'createCategory'])->name('admin.categories.create');
+    Route::get('admin/category/edit/{id}', [AdminController::class, 'editCategory'])->name('admin.categories.edit');
+    Route::put('admin/category/edit/{id}', [AdminController::class, 'updateCategory']);
+    Route::delete('admin/category/delete/{id}', [AdminController::class, 'deleteCategory'])->name('admin.categories.delete');
 
 });
-Route::get('/admin/category/create', [AdminController::class, 'createCategory'])->name('admin.create-category');
-Route::post('/admin/category', [AdminController::class, 'storeCategory'])->name('admin.store-category');
+
 // Authentication Routes
 require __DIR__ . '/auth.php';

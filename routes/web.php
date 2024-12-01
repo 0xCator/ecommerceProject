@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Middleware\CheckRole;
 // Welcome Page
 Route::get('/', function () {
     return view('welcome');
@@ -23,9 +23,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // User Dashboard
-    Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
-
-    // Admin Dashboard Route
+    Route::middleware(CheckRole::class . ':user')->group(function () {
+        Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
+    });
+    Route::middleware(CheckRole::class . ':admin')->group(function () {
+        // Admin Dashboard Route
     Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     // Category Management Routes
@@ -44,7 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::get('admin/category/edit/{id}', [AdminController::class, 'editCategory'])->name('admin.categories.edit');
     Route::put('admin/category/edit/{id}', [AdminController::class, 'updateCategory']);
     Route::delete('admin/category/delete/{id}', [AdminController::class, 'deleteCategory'])->name('admin.categories.delete');
-
+    });
 });
 
 // Authentication Routes

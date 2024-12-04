@@ -32,13 +32,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
-
-/*     public function isAdmin()
+    public function cart()
     {
-        return $this->role === 'admin';
+        return $this->hasOne(Cart::class);
     }
-    public function isUser()
+
+    public function orders()
     {
-        return $this->role === 'user';
-    } */
+        return $this->hasMany(Order::class);
+    }
 }

@@ -12,7 +12,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('admin.products.add-product') }}">
+        <form method="POST" action="{{ route('admin.products.add-product') }}" enctype="multipart/form-data">
             @csrf
             <div class="mb-4">
                 <label for="name" class="block text-gray-700">Product Name</label>
@@ -72,7 +72,11 @@
                     placeholder="Enter category ID"
                 >
             </div>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+            <div class="mb-4">
+                <label for="image">Image</label>
+                <input type="file" name="images[]" id="image" multiple>
+            </div>
+            <button type="submit" class="bg-blue-500 text-black px-4 py-2 rounded">
                 Create Product
             </button>
         </form>

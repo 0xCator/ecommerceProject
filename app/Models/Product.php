@@ -18,4 +18,8 @@ class Product extends Model
     {
         return $this->belongsTo(Product::class);
     }
+    public function multiimages()
+    {
+        return $this->hasMany(MultiImages::class);
+    }
 }

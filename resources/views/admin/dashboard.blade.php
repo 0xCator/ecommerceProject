@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="admin-dashboard">
         <h1>Admin Dashboard</h1>
-        <p>Welcome, Admin!</p>
+        <p>Welcome!</p>
 
         <!-- Success Message -->
         @if(session('success'))
@@ -62,6 +62,7 @@
                     <th class="border border-gray-300 px-4 py-2">Stock</th>
                     <th class="border border-gray-300 px-4 py-2">Description</th>
                     <th class="border border-gray-300 px-4 py-2">Category ID</th>
+                    <th class="border border-gray-300 px-4 py-2">Images</th>
                     <th class="border border-gray-300 px-4 py-2">Actions</th>
                 </tr>
             </thead>
@@ -74,6 +75,11 @@
                         <td class="border border-gray-300 px-4 py-2">{{ $product->stock }}</td>
                         <td class="border border-gray-300 px-4 py-2">{{ $product->description }}</td>
                         <td class="border border-gray-300 px-4 py-2">{{ $product->category_id }}</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                        @foreach ($product->multiimages as $image )
+                            <img src="{{asset('upload/products/'.$image->name)}}">
+                        @endforeach
+                        </td>
                         <td class="border border-gray-300 px-4 py-2">
                             <a href="{{ route('admin.products.edit', $product->id) }}" 
                                class="bg-yellow-500 text-black px-4 py-2 rounded">
@@ -91,7 +97,7 @@
                         </td>
                     </tr>
                 @endforeach
-            </tbody>
+            </tbody>    
         </table>
 
         <!-- Link to Add New Product -->

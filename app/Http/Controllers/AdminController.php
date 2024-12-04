@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\MultiImages;
 class AdminController extends Controller
 {
     public function dashboard()
@@ -21,17 +22,26 @@ class AdminController extends Controller
                 'price' => 'required|integer',
                 'stock' => 'required|integer',
                 'description' => 'required|string',
-                'category_id' => 'required|integer|exists:categories,id'
+                'category_id' => 'required|integer|exists:categories,id',
+                'image.*' => 'required|image|mimes:png,webp'
             ]);
 
-            Product::create([
+            $products = Product::create([
                 'name' => $request->input('name'),
                 'price' => $request->input('price'),
                 'stock' => $request->input('stock'),
                 'description' => $request->input('description'),
                 'category_id' => $request->input('category_id')
             ]);
-
+            $images = $request->file('images');
+            foreach($images as $image){
+                $image_name=date('YmDHi').$image->getClientOriginalName();
+                $image->move(public_path('upload/products'),$image_name);
+                MultiImages::create([
+                    'name'=>$image_name,
+                    'product_id'=>$products->id
+                ]);
+            }
             return redirect()->route('admin.dashboard')->with('success', 'Product created successfully.');
         }
 

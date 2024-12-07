@@ -5,8 +5,8 @@
     </div>
     <div>
         <nav>
-            <a href="/cart">Cart</a>
-            <a href="/orders">Orders</a>
+        <a href="{{ route('cart.dashboard') }}" class="btn btn-primary">Display Cart</a>
+        
         </nav>
 
         <div class="container">
@@ -24,7 +24,7 @@
                 </ul>
 
                 <h3>Filter by Price</h3>
-                <form action="{{ route('user.dashboard') }}" method="GET">
+                <form action="{{ route('user.dashboard') }}" method="GET"> 
                     <label for="min_price">Min Price:</label>
                     <input type="number" name="min_price" id="min_price" min="0" value="{{ request('min_price') }}">
                     <label for="max_price">Max Price:</label>

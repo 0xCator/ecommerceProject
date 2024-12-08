@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
 use App\Models\OrderItems;
 use App\Models\Product;
@@ -65,31 +66,18 @@ class CartController extends Controller
     // Place Order
     public function placeOrder()
     {
-        /* $cart = Cart::where('user_id', auth()->id())->first();
-    
-        if (!$cart || $cart->orderItems->isEmpty()) {
-            return redirect()->route('user.dashboard')->withErrors(['error' => 'Your cart is empty.']);
-        }
-    
-        // Create a new order
         $order = Order::firstOrCreate(['user_id' => auth()->id()]);
-        
-    
-        // Update order items
-        foreach ($cart->orderItems as $cartItem) {
-            $orderItem = new OrderItems;
-            $orderItem->product_id = $cartItem->product_id;
-            $orderItem->quantity = $cartItem->quantity;
-            $orderItem->price = $cartItem->price;
-            $orderItem->order_id = $order->id;
-            $orderItem->cart_id = null;
-            $orderItem->save();
+        $userId = Auth::id();
+        $cart = Cart::where('user_id', $userId)->first();
+        foreach ($cart->orderItems as $orderItem) {
+            $orderItem->update([
+                'carts_id' => null,
+                'orders_id' => $order->id,
+            ]);
         }
-    
-        // Clear the cart
-        $cart->orderItems()->delete();
+
+        // Clear the cart after processing order items
         $cart->delete();
-     */
         return Redirect::to('/user/dashboard')->with('success', 'Cart item updated successfully!');
     }
 }

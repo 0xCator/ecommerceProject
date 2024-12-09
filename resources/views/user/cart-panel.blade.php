@@ -45,6 +45,5 @@
                     </tr>
                 </tfoot>
             </table>
-
     </div>
 </x-app-layout>

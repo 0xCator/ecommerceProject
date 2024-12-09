@@ -29,7 +29,9 @@ Route::middleware('auth')->group(function () {
         // Add to Cart
         Route::post('/add-to-cart', [UserController::class, 'addToCart'])->name('user.add_to_cart');
 
-        Route::get('/user/cart', [UserController::class, 'displayCart'])->name('cart.dashboard');
+        Route::get('/user/cart', [UserController::class, 'displayCart'])->name('cart.panel');
+        Route::get('/user/orders', [UserController::class, 'displayOrders'])->name('order.panel');
+
         Route::post('/user/cart/update/{id}', [CartController::class, 'update'])->name('user.cart.update');
         Route::post('/user/cart/remove/{id}', [CartController::class, 'remove'])->name('user.cart.remove');
         Route::post('/user/cart/place-order', [CartController::class, 'placeOrder'])->name('user.cart.place-order');
@@ -37,8 +39,6 @@ Route::middleware('auth')->group(function () {
         // Additional User Actions
         // Route::get('/user/orders', [UserController::class, 'displayOrders'])->name('user.display-orders');
 
-        // User Orders
-        Route::get('/user/orders', [UserController::class, 'orders'])->name('user.orders');
     });
 });
 

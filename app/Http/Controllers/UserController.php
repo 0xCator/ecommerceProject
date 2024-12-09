@@ -40,7 +40,11 @@ class UserController extends Controller
     }
     public function displayCart(CartController $cartController)
     {
-        return $cartController->dashboard();
+        return $cartController->displayCart();
+    }
+    public function displayOrders(OrderController $orderController)
+    {
+        return $orderController->displayOrders();
     }
     // Add product to cart
     public function addToCart(Request $request)

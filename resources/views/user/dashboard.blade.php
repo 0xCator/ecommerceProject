@@ -5,8 +5,10 @@
     </div>
     <div>
         <nav>
-        <a href="{{ route('cart.dashboard') }}" class="btn btn-primary">Display Cart</a>
-        
+        <a href="{{ route('cart.panel') }}" class="btn btn-primary">Display Cart</a>
+        </nav>
+        <nav>
+        <a href="{{ route('order.panel') }}" class="btn btn-primary">Display Orders</a>
         </nav>
 
         <div class="container">

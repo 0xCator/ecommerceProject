@@ -14,7 +14,7 @@ use App\Models\Order;
 class CartController extends Controller
 {
     // Display Cart Dashboard
-    public function dashboard()
+    public function displayCart()
     {
         $cart = Cart::where('user_id', auth()->id())->first();
  
@@ -66,7 +66,7 @@ class CartController extends Controller
     // Place Order
     public function placeOrder()
     {
-        $order = Order::firstOrCreate(['user_id' => auth()->id()]);
+        $order = Order::Create(['user_id' => auth()->id()]);
         $userId = Auth::id();
         $cart = Cart::where('user_id', $userId)->first();
         foreach ($cart->orderItems as $orderItem) {

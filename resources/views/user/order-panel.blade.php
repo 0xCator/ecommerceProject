@@ -9,7 +9,7 @@
                     <p>
                         <strong>Total Price:</strong> $
                         {{ number_format($order->orderitems->sum(function($item) {
-                            return $item->quantity * $item->price;
+                            return $item->price;
                         }), 2) }}
                     </p>    
                 </div>

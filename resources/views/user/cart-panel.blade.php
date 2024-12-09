@@ -30,8 +30,35 @@
                                 </form>
                             </td>
                         </tr>
+                        @if (isset($item->note))
+                            <tr>
+                                <td colspan="5" class="text-danger">{{ $item->note }}</td>
+                            </tr>
+                        @endif
                     @endforeach
                 </tbody>
+<!-- 
+                <tbody>
+                    @foreach ($orderItems as $item)
+                        <tr>
+                            <td>{{ $item->product->name }}</td>
+                            <td>{{ $item->quantity }}</td>
+                            <td>${{ number_format($item->product->price, 2) }}</td>
+                            <td>${{ number_format($item->price, 2) }}</td>
+                            <td>
+                                <form action="{{ route('user.cart.update', $item->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" class="form-control d-inline w-auto">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </form>
+                                <form action="{{ route('user.cart.remove', $item->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody> -->
                 <tfoot>
                     <tr>
                         <td colspan="3"><strong>Total</strong></td>

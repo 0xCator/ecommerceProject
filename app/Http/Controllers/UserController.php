@@ -12,32 +12,32 @@ class UserController extends Controller
     // Display user dashboard with products and category sidebar
     public function dashboard(Request $request)
     {
-        $query = Product::query();
-
+        $query = Product::with('multiimages'); 
+    
         if ($request->has('id')) {
             $query->where('category_id', $request->id);
         }
-
+    
         if ($request->has('search')) {
             $query->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('description', 'like', '%' . $request->search . '%');
+                  ->orWhere('description', 'like', '%' . $request->search . '%');
         }
-
+    
         if ($request->has('min_price')) {
             $query->where('price', '>=', $request->min_price);
         }
         if ($request->has('max_price')) {
             $query->where('price', '<=', $request->max_price);
         }
-
+    
         $products = $query->get();
         $categories = Category::all();
-
+    
         $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
         $orderItems = $cart->orderitems;
-
+    
         return view('user.dashboard', compact('products', 'categories', 'cart', 'orderItems'));
-    }
+    }    
     public function displayCart(CartController $cartController)
     {
         return $cartController->displayCart();
@@ -84,7 +84,7 @@ class UserController extends Controller
     }
 
     // Deduct the stock
-    $product->decrement('stock', $request->quantity);
+    // $product->decrement('stock', $request->quantity);
 
     return redirect()->back()->with('success', 'Product added to cart successfully!');
 }

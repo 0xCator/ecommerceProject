@@ -23,7 +23,7 @@ class AdminController extends Controller
                 'stock' => 'required|integer',
                 'description' => 'required|string',
                 'category_id' => 'required|integer|exists:categories,id',
-                'image.*' => 'required|image|mimes:png,webp'
+                'image.*' => 'nullable|required|image|mimes:png,webp'
             ]);
 
             $products = Product::create([

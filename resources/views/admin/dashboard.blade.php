@@ -1,110 +1,107 @@
 <x-app-layout>
     <div class="admin-dashboard">
-        <h1>Admin Dashboard</h1>
-        <p>Welcome!</p>
-
-        <!-- Success Message -->
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
+        <div class="container mx-auto">
+            <!-- Success Message -->
+            @if(session('success'))
+                <div class="alert alert-success bg-emerald-200 border border-green-400 text-green-700 px-4 py-3 rounded relative text-center mt-2" role="alert">
+                    {{ session('success') }}
+                </div>
+            @endif
+            <!-- List of Categories -->
+            <h1 class="text-xl text-center font-semibold mt-4">Categories</h1>
+            <div>
+                <a href="{{ route('admin.categories.create') }}" class="bg-emerald-800 text-white px-4 py-2 p-2 float-left hover:bg-emerald-600 mt-4 mb-4">
+                    Add a Category
+                </a>
             </div>
-        @endif
-        <!-- List of Categories -->
-        <h2>Categories</h2>
-        <table class="table-auto border-collapse border border-gray-400 w-full">
-            <thead>
-                <tr>
-                    <th class="border border-gray-300 px-4 py-2">ID</th>
-                        <th class="border border-gray-300 px-4 py-2">Name</th>
-                        <th class="border border-gray-300 px-4 py-2">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($categories as $category)
-                <tr>
-                    <td class="border border-gray-300 px-4 py-2">{{ $category->id }}</td>
-                    <td class="border border-gray-300 px-4 py-2">{{ $category->name }}</td>
-                    <td class="border border-gray-300 px-4 py-2">
-                    <a href="{{ route('admin.categories.edit', $category->id) }}" 
-                        class="bg-yellow-500 text-black px-4 py-2 rounded">
-                            Edit
-                    </a>
-                    <form method="POST" action="{{ route('admin.categories.delete', $category->id) }}" class="inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" 
-                            onclick="return confirm('Are you sure you want to delete this category?')" 
-                            class="bg-red-500 text-black px-4 py-2 rounded">
-                            Delete
-                        </button>
-                    </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-        <!-- Link to Add New Category -->
-        <div class="mt-4">
-            <a href="{{ route('admin.categories.create') }}" class="bg-blue-500 text-black px-4 py-2 rounded">
-                Add New Category
-            </a>
-        </div>        
- 
-        <!-- List of Products -->
-        <h2>Products</h2>
-        <table class="table-auto border-collapse border border-gray-400 w-full">
-            <thead>
-                <tr>
-                    <th class="border border-gray-300 px-4 py-2">ID</th>
-                    <th class="border border-gray-300 px-4 py-2">Name</th>
-                    <th class="border border-gray-300 px-4 py-2">Price</th>
-                    <th class="border border-gray-300 px-4 py-2">Stock</th>
-                    <th class="border border-gray-300 px-4 py-2">Description</th>
-                    <th class="border border-gray-300 px-4 py-2">Category ID</th>
-                    <th class="border border-gray-300 px-4 py-2">Images</th>
-                    <th class="border border-gray-300 px-4 py-2">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($products as $product)
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500" style="background-color: #f9f9f9;"> <!-- Custom background color -->
+                <thead class="text-xs text-gray-700 uppercase" style="background-color: #e5e7eb;"> <!-- Custom header background -->
                     <tr>
-                        <td class="border border-gray-300 px-4 py-2">{{ $product->id }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $product->name }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $product->price }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $product->stock }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $product->description }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $product->category_id }}</td>
-                        <td class="border border-gray-300 px-4 py-2">
-                        @foreach ($product->multiimages as $image )
-                            <img src="{{asset('upload/products/'.$image->name)}}">
-                        @endforeach
-                        </td>
-                        <td class="border border-gray-300 px-4 py-2">
-                            <a href="{{ route('admin.products.edit', $product->id) }}" 
-                               class="bg-yellow-500 text-black px-4 py-2 rounded">
-                                Edit
-                            </a>
-                            <form method="POST" action="{{ route('admin.products.delete', $product->id) }}" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" 
-                                        onclick="return confirm('Are you sure you want to delete this product?')" 
-                                        class="bg-red-500 text-black px-4 py-2 rounded">
-                                    Delete
-                                </button>
-                            </form>
-                        </td>
+                        <th scope="col" class="px-6 py-3">ID</th>
+                        <th scope="col" class="px-6 py-3">Name</th>
+                        <th scope="col" class="px-6 py-3">Actions</th>
                     </tr>
-                @endforeach
-            </tbody>    
-        </table>
-
-        <!-- Link to Add New Product -->
-        <div class="mt-4">
-            <a href="{{ route('admin.products.add-product') }}" class="bg-blue-500 text-black px-4 py-2 rounded">
-                Add New Product
-            </a>
+                </thead>
+                <tbody>
+                    @foreach ($categories as $category)
+                        <tr class="border-b" style="background-color: #ffffff;"> <!-- Custom row background -->
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                {{ $category->id }}
+                            </th>
+                            <td class="px-6 py-4">{{ $category->name }}</td>
+                            <td class="px-6 py-4">
+                                <a href="{{ route('admin.categories.edit', $category->id) }}" 
+                                   class="text-blue-600 hover:underline m-1">Edit</a>
+                                <form method="POST" action="{{ route('admin.categories.delete', $category->id) }}" class="inline m-1">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" 
+                                            onclick="return confirm('Are you sure you want to delete this category?')" 
+                                            class="text-red-600 hover:underline">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>        
+        </div>
+        <!-- List of Products -->
+        <div class="container mx-auto">
+            <h1 class="text-xl text-center font-semibold mt-4">Products</h1>
+            <div>
+                <a href="{{ route('admin.products.add-product') }}" class="bg-emerald-800 text-white px-4 py-2 p-2 float-left hover:bg-emerald-600 mb-4">
+                    Add a Product
+                </a>
+            </div>
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500" style="background-color: #f3f4f6;"> <!-- Custom background color -->
+                <thead class="text-xs text-gray-700 uppercase" style="background-color: #d1d5db;"> <!-- Custom header background -->
+                    <tr>
+                        <th scope="col" class="px-6 py-3">ID</th>
+                        <th scope="col" class="px-6 py-3">Name</th>
+                        <th scope="col" class="px-6 py-3">Price</th>
+                        <th scope="col" class="px-6 py-3">Stock</th>
+                        <th scope="col" class="px-6 py-3">Description</th>
+                        <th scope="col" class="px-6 py-3">Category ID</th>
+                        <th scope="col" class="px-6 py-3">Images</th>
+                        <th scope="col" class="px-6 py-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($products as $product)
+                        <tr class="border-b" style="background-color: #ffffff;"> <!-- Custom row background -->
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                {{ $product->id }}
+                            </th>
+                            <td class="px-6 py-4">{{ $product->name }}</td>
+                            <td class="px-6 py-4">{{ $product->price }}</td>
+                            <td class="px-6 py-4">{{ $product->stock }}</td>
+                            <td class="px-6 py-4">{{ $product->description }}</td>
+                            <td class="px-6 py-4">{{ $product->category_id }}</td>
+                            <td class="px-6 py-4">
+                                @foreach ($product->multiimages as $image)
+                                    <img src="{{ asset('upload/products/' . $image->name) }}" 
+                                         alt="Product Image" class="h-16 w-16 object-cover rounded">
+                                @endforeach
+                            </td>
+                            <td class="px-6 py-4">
+                                <a href="{{ route('admin.products.edit', $product->id) }}" 
+                                   class="text-blue-600 hover:underline m-1">Edit</a>
+                                <form method="POST" action="{{ route('admin.products.delete', $product->id) }}" class="inline m-1">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" 
+                                            onclick="return confirm('Are you sure you want to delete this product?')" 
+                                            class="text-red-600 hover:underline">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>           
         </div>
     </div>
 </x-app-layout>

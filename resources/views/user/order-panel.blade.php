@@ -5,7 +5,7 @@
 
         <!-- Orders Loop -->
         @forelse($orders as $order)
-            <div class="bg-white shadow-lg rounded-lg mb-6 p-6">
+            <div class="bg-white shadow-lg mb-6 p-6">
                 <!-- Order Header -->
                 <div class="flex justify-between items-center border-b pb-4 mb-4">
                     <h5 class="text-xl font-semibold">Order ID: {{ $order->id }}</h5>
@@ -19,7 +19,7 @@
                     <h6 class="text-lg font-medium">Order Items:</h6>
                     <ul class="space-y-2">
                         @forelse($order->orderitems as $item)
-                            <li class="flex justify-between p-4 border rounded-md bg-gray-50">
+                            <li class="flex justify-between p-4 border bg-gray-50">
                                 <div class="flex-1">
                                     <strong>Product:</strong> {{ $item->product->name ?? 'N/A' }} <br>
                                     <strong>Quantity:</strong> {{ $item->quantity }} <br>

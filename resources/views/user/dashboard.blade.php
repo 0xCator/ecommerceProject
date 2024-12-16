@@ -3,7 +3,7 @@
         <!-- User Dashboard Header -->
         <div class="bg-white shadow-md p-6 mb-6 flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-bold text-gray-800">Welcome, {{ Auth::user()->name }}!</h1>
+                <h1 class="text-2xl font-bold text-gray-800 ml-16 pl-2">Welcome, {{ Auth::user()->name }}!</h1>
             </div>
             <!-- Cart and Orders Buttons -->
             <div class="flex gap-4">
@@ -21,7 +21,7 @@
         <!-- Main Content -->
         <div class="container mx-auto flex flex-col lg:flex-row gap-6">
             <!-- Sidebar -->
-            <aside class="bg-white p-6 rounded-lg shadow-md w-full lg:w-1/4">
+            <aside class="bg-white p-6 shadow-md w-full lg:w-1/4">
                 <!-- Categories -->
                 <h3 class="text-lg font-semibold mb-4 text-gray-700">Categories</h3>
                 <ul class="space-y-2">
@@ -48,16 +48,16 @@
                         <label for="min_price" class="block text-gray-600">Min Price:</label>
                         <input type="number" name="min_price" id="min_price" min="0"
                                value="{{ request('min_price') }}" 
-                               class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                               class="w-full border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div>
                         <label for="max_price" class="block text-gray-600">Max Price:</label>
                         <input type="number" name="max_price" id="max_price" min="0"
                                value="{{ request('max_price') }}" 
-                               class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                               class="w-full border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <button type="submit" 
-                            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            class="bg-blue-600 text-white px-4 py-2 hover:bg-blue-700">
                         Apply
                     </button>
                 </form>
@@ -66,13 +66,13 @@
             <!-- Products Section -->
             <main class="flex-1">
                 <!-- Search Bar and Reset -->
-                <div class="flex justify-between items-center mb-6 bg-white p-4 rounded-lg shadow-md">
+                <div class="flex justify-between items-center mb-6 bg-white p-4 shadow-md">
                     <form action="{{ route('user.dashboard') }}" method="GET" class="flex w-full">
                         <input type="text" name="search" placeholder="Search products..." 
                                value="{{ request('search') }}"
-                               class="w-full border rounded-l px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                               class="w-full border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <button type="submit" 
-                                class="bg-blue-600 text-white px-4 rounded-r hover:bg-blue-700">
+                                class="bg-blue-600 text-white px-4 hover:bg-blue-700">
                             Search
                         </button>
                     </form>
@@ -85,13 +85,13 @@
                 <!-- Product Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     @forelse($products as $product)
-                        <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+                        <div class="bg-white shadow-md p-4 hover:shadow-lg transition">
                             <!-- Product Images -->
                             <div class="mb-4">
                                 @if($product->multiimages->isNotEmpty())
                                     <img src="{{ asset('upload/products/' . $product->multiimages->first()->name) }}" 
                                          alt="{{ $product->name }}" 
-                                         class="w-full h-48 object-cover rounded">
+                                         class="w-full h-48 object-cover">
                                 @endif
                             </div>
                             <!-- Product Details -->
@@ -106,7 +106,7 @@
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <label for="quantity_{{ $product->id }}" class="text-sm text-gray-600">Quantity:</label>
                                 <input type="number" name="quantity" id="quantity_{{ $product->id }}" min="1" max="{{ $product->stock }}"
-                                       class="w-full border rounded px-2 py-1 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                       class="w-full border px-2 py-1 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <button type="submit" 
                                         class="mt-2 w-full bg-emerald-800 text-white px-4 py-2 hover:bg-emerald-500">
                                     Add to Cart

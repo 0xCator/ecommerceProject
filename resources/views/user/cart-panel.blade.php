@@ -4,7 +4,7 @@
         <h1 class="text-3xl font-bold mb-6 text-center">Your Shopping Cart</h1>
 
         <!-- Cart Table -->
-        <div class="overflow-x-auto shadow-lg rounded-lg">
+        <div class="overflow-x-auto shadow-lg">
             <table class="w-full text-sm text-left text-gray-500" style="background-color: #f9f9f9;">
                 <!-- Table Header -->
                 <thead class="text-xs text-gray-700 uppercase" style="background-color: #e5e7eb;">
@@ -31,10 +31,10 @@
                                         name="quantity" 
                                         value="{{ $item->quantity }}" 
                                         min="1" 
-                                        class="w-16 border-gray-300 rounded-md text-center"
+                                        class="w-16 border-gray-300 text-center"
                                     >
                                     <button type="submit" 
-                                        class="ml-2 px-2 py-1 text-white bg-blue-500 hover:bg-blue-600 rounded">
+                                        class="ml-2 px-2 py-1 text-white bg-blue-600 hover:bg-blue-700">
                                         Update
                                     </button>
                                 </form>
@@ -78,7 +78,7 @@
                             <form action="{{ route('user.cart.place-order') }}" method="POST">
                                 @csrf
                                 <button type="submit" 
-                                    class="px-4 py-2 bg-emerald-500 text-white hover:bg-emerald-800">
+                                    class="px-4 py-2 bg-emerald-800 text-white hover:bg-emerald-500">
                                     Place Order
                                 </button>
                             </form>

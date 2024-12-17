@@ -83,7 +83,7 @@
                         </td>
                         <td class="py-4 px-6 text-center">
                             <!-- Disable the "Place Order" button if any item is out of stock -->
-                            <form action="{{ route('user.cart.place-order') }}" method="POST">
+                            <form action="{{ route('payment.page') }}" method="GET">
                                 @csrf
                                 <button type="submit" 
                                         class="px-4 py-2 bg-emerald-800 text-white hover:bg-emerald-500 {{ $outOfStock ? 'opacity-50 cursor-not-allowed' : '' }}" 

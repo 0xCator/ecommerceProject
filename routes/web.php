@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
@@ -50,21 +52,21 @@ Route::middleware('auth')->group(function () {
         Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
         // Category Management Routes
-        Route::match(['get', 'post'], 'admin/product', [AdminController::class, 'addProduct'])->name('admin.products.add-product');
+        Route::match(['get', 'post'], 'admin/product', [ProductController::class, 'store'])->name('admin.products.add-product');
         // Route to display the edit form
-        Route::get('admin/products/edit/{id}', [AdminController::class, 'editProduct'])->name('admin.products.edit');
+        Route::get('admin/products/edit/{id}', [ProductController::class, 'edit'])->name('admin.products.edit');
 
         // Route to handle the update operation
-        Route::put('admin/products/edit/{id}', [AdminController::class, 'updateProduct']);
+        Route::put('admin/products/edit/{id}', [ProductController::class, 'update']);
 
         // Delete product route
-        Route::delete('admin/products/delete/{id}', [AdminController::class, 'deleteProduct'])->name('admin.products.delete');
+        Route::delete('admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('admin.products.delete');
         
         // Category Management Routes
-        Route::match(['get', 'post'], 'admin/category/create', [AdminController::class, 'createCategory'])->name('admin.categories.create');
-        Route::get('admin/category/edit/{id}', [AdminController::class, 'editCategory'])->name('admin.categories.edit');
-        Route::put('admin/category/edit/{id}', [AdminController::class, 'updateCategory']);
-        Route::delete('admin/category/delete/{id}', [AdminController::class, 'deleteCategory'])->name('admin.categories.delete');
+        Route::match(['get', 'post'], 'admin/category/create', [CategoryController::class, 'store'])->name('admin.categories.create');
+        Route::get('admin/category/edit/{id}', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+        Route::put('admin/category/edit/{id}', [CategoryController::class, 'update']);
+        Route::delete('admin/category/delete/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.delete');
     });
 });
 

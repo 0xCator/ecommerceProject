@@ -75,15 +75,31 @@
                     >
                 </div>
                 <div class="mb-4">
-                    <label for="image" class="block text-sm">Update Product Images</label>
-                    <input 
-                        type="file" 
-                        name="images[]" 
-                        id="image" 
-                        class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-400 focus:ring focus:ring-emerald-800 focus:ring-opacity-30" 
-                        multiple
-                    >
+                <label class="block text-sm">Existing Images</label>
+                <div class="flex flex-wrap gap-4">
+                    @foreach ($product->multiimages as $image)
+                        <div class="flex flex-col items-center">
+                            <img src="{{ asset('upload/products/' . $image->name) }}" 
+                                alt="Product Image" class="h-24 w-24 object-cover mb-2">
+                            <label>
+                                <input type="checkbox" name="delete_images[]" value="{{ $image->id }}">
+                                Delete
+                            </label>
+                        </div>
+                    @endforeach
                 </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="image" class="block text-sm">Add New Images</label>
+                <input 
+                    type="file" 
+                    name="images[]" 
+                    id="image" 
+                    class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-400 focus:ring focus:ring-emerald-800 focus:ring-opacity-30" 
+                    multiple
+                >
+            </div>
                 <div class="mt-4">
                     <button 
                         type="submit" 

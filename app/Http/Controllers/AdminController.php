@@ -62,7 +62,10 @@ class AdminController extends Controller
             'price' => 'required|integer',
             'stock' => 'required|integer',
             'description' => 'required|string',
-            'category_id' => 'required|integer|exists:categories,id'
+            'category_id' => 'required|integer|exists:categories,id',
+            'images.*' => 'nullable|image|mimes:png,webp,jpeg|max:2048',
+            'delete_images' => 'nullable|array',
+            'delete_images.*' => 'exists:multi_images,id',
         ]);
 
         $product->update([
@@ -73,8 +76,34 @@ class AdminController extends Controller
             'category_id' => $request->input('category_id'),
         ]);
 
+        // image deletion
+        if ($request->has('delete_images')) {
+            foreach ($request->delete_images as $imageId) {
+                $image = MultiImages::findOrFail($imageId);
+                $imagePath = public_path('upload/products/' . $image->name);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath); 
+                }
+                $image->delete(); 
+            }
+        }
+
+        // new image uploads
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imageName = date('YmdHis') . '_' . $image->getClientOriginalName();
+                $image->move(public_path('upload/products'), $imageName);
+
+                MultiImages::create([
+                    'name' => $imageName,
+                    'product_id' => $product->id,
+                ]);
+            }
+        }
+
         return redirect()->route('admin.dashboard')->with('success', 'Product updated successfully.');
     }
+
     public function deleteProduct($id)
     {
         $product = Product::findOrFail($id); // Find the product or throw a 404 error

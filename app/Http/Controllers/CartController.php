@@ -63,9 +63,6 @@ class CartController extends Controller
     {
         $orderItem = OrderItems::findOrFail($id);
 
-        // Restore stock
-        $orderItem->product->increment('stock', $orderItem->quantity);
-
         $orderItem->delete();
 
         return Redirect::to('/user/cart')->with('success', 'Cart item updated successfully!');

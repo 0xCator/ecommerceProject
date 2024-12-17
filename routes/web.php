@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Middleware\CheckRole;
@@ -48,25 +49,9 @@ Route::middleware('auth')->group(function () {
 
 
     Route::middleware(CheckRole::class . ':admin')->group(function () {
-            // Admin Dashboard Route
-        Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-
-        // Category Management Routes
-        Route::match(['get', 'post'], 'admin/product', [ProductController::class, 'store'])->name('admin.products.add-product');
-        // Route to display the edit form
-        Route::get('admin/products/edit/{id}', [ProductController::class, 'edit'])->name('admin.products.edit');
-
-        // Route to handle the update operation
-        Route::put('admin/products/edit/{id}', [ProductController::class, 'update']);
-
-        // Delete product route
-        Route::delete('admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('admin.products.delete');
-        
-        // Category Management Routes
-        Route::match(['get', 'post'], 'admin/category/create', [CategoryController::class, 'store'])->name('admin.categories.create');
-        Route::get('admin/category/edit/{id}', [CategoryController::class, 'edit'])->name('admin.categories.edit');
-        Route::put('admin/category/edit/{id}', [CategoryController::class, 'update']);
-        Route::delete('admin/category/delete/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.delete');
+        Route::resource('admin/products', ProductController::class);
+        Route::resource('admin/categories', CategoryController::class);
+        Route::get('/admin/orders', [OrderController::class, 'displayAllOrders'])->name('admin.orders');
     });
 });
 

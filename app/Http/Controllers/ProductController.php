@@ -9,43 +9,54 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function index()
+    {
+        $products = Product::all();
+        $categories = Category::all();
+        return view('admin.products.index', compact('products'));
+    }
+
+    public function create()
+    {
+        $categories = Category::all();
+        return view('admin.products.create', compact('categories'));
+    }
+
     public function store(Request $request)
     {
-        if ($request->isMethod('post')) {
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'price' => 'required|integer',
-                'stock' => 'required|integer',
-                'description' => 'required|string',
-                'category_id' => 'required|integer|exists:categories,id',
-                'image.*' => 'nullable|required|image|mimes:png,webp'
-            ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|integer',
+            'stock' => 'required|integer',
+            'description' => 'required|string',
+            'category_id' => 'required|integer|exists:categories,id',
+            'image.*' => 'nullable|required|image|mimes:png,webp'
+        ]);
 
-            $products = Product::create([
-                'name' => $request->input('name'),
-                'price' => $request->input('price'),
-                'stock' => $request->input('stock'),
-                'description' => $request->input('description'),
-                'category_id' => $request->input('category_id')
+        $products = Product::create([
+            'name' => $request->input('name'),
+            'price' => $request->input('price'),
+            'stock' => $request->input('stock'),
+            'description' => $request->input('description'),
+            'category_id' => $request->input('category_id')
+        ]);
+        $images = $request->file('images');
+        foreach($images as $image){
+            $image_name=date('YmDHi').$image->getClientOriginalName();
+            $image->move(public_path('upload/products'),$image_name);
+            MultiImages::create([
+                'name'=>$image_name,
+                'product_id'=>$products->id
             ]);
-            $images = $request->file('images');
-            foreach($images as $image){
-                $image_name=date('YmDHi').$image->getClientOriginalName();
-                $image->move(public_path('upload/products'),$image_name);
-                MultiImages::create([
-                    'name'=>$image_name,
-                    'product_id'=>$products->id
-                ]);
-            }
-            return redirect()->route('admin.dashboard')->with('success', 'Product created successfully.');
         }
-        return view('admin.products.add-product');
+        return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
     public function edit(string $id)
     {
         $product = Product::findOrFail($id); // Find product or return 404
-        return view('admin.products.edit', compact('product'));
+        $categories = Category::all();
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     public function update(Request $request, string $id)
@@ -96,7 +107,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->route('admin.dashboard')->with('success', 'Product updated successfully.');
+        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
     public function destroy(string $id)
@@ -104,6 +115,6 @@ class ProductController extends Controller
         $product = Product::findOrFail($id); // Find the product or throw a 404 error
         $product->delete(); // Delete the product
 
-        return redirect()->route('admin.dashboard')->with('success', 'Product deleted successfully.');
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
 }

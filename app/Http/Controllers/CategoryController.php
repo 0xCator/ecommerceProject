@@ -12,7 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -20,7 +21,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categories.create');
     }
 
     /**
@@ -28,17 +29,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->isMethod('post')) {
-            $request->validate([
-                'name' => 'required|string|max:255',
-            ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
 
-            Category::create(['name' => $request->input('name')]);
+        Category::create(['name' => $request->input('name')]);
 
-            return redirect()->route('admin.dashboard')->with('success', 'Category created successfully.');
-        }
-
-        return view('admin.categories.create');
+        return redirect()->route('categories.index')->with('success', 'Category created successfully.');
     }
 
     /**
@@ -61,7 +58,7 @@ class CategoryController extends Controller
 
         $category->update(['name' => $request->input('name')]);
 
-        return redirect()->route('admin.dashboard')->with('success', 'Category updated successfully.');
+        return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
     }
 
     /**
@@ -72,6 +69,6 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->delete();
 
-        return redirect()->route('admin.dashboard')->with('success', 'Category deleted successfully.');
+        return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
 }

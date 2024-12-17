@@ -37,7 +37,7 @@
             <main class="flex-1">
             <div class="container mx-auto flex justify-center items-start min-h-screen mt-8">
                 <div class="w-1/2">
-                    <h1 class="text-2xl font-bold mb-4 text-center">Edit Product</h1>
+                    <h1 class="text-2xl font-bold mb-4 text-center">Add New Product</h1>
 
                     @if($errors->any())
                     <div class="alert alert-danger text-center mb-4">
@@ -49,16 +49,15 @@
                     </div>
                     @endif
 
-                    <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
                         @csrf
-                        @method('PATCH')
                         <div class="mb-4">
                             <label for="name" class="block text-sm">Product Name</label>
                             <input 
                                 type="text" 
                                 name="name" 
                                 id="name" 
-                                value="{{ old('name', $product->name) }}" 
+                                value="{{ old('name') }}" 
                                 class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-400 focus:ring focus:ring-emerald-800 focus:ring-opacity-30" 
                                 required 
                                 placeholder="Enter product name"
@@ -70,7 +69,7 @@
                                 type="number" 
                                 name="price" 
                                 id="price" 
-                                value="{{ old('price', $product->price) }}" 
+                                value="{{ old('price') }}" 
                                 class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-400 focus:ring focus:ring-emerald-800 focus:ring-opacity-30" 
                                 required 
                                 placeholder="Enter product price"
@@ -82,7 +81,7 @@
                                 type="number" 
                                 name="stock" 
                                 id="stock" 
-                                value="{{ old('stock', $product->stock) }}" 
+                                value="{{ old('stock') }}" 
                                 class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-400 focus:ring focus:ring-emerald-800 focus:ring-opacity-30" 
                                 required 
                                 placeholder="Enter stock quantity"
@@ -96,7 +95,7 @@
                                 class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-400 focus:ring focus:ring-emerald-800 focus:ring-opacity-30" 
                                 required 
                                 placeholder="Enter product description"
-                            >{{ old('description', $product->description) }}</textarea>
+                            >{{ old('description') }}</textarea>
                         </div>
                         <div class="mb-4">
                             <label for="category_id" class="block text-sm">Category ID</label>
@@ -108,46 +107,26 @@
                             >
                                 <option value="">Select Category</option>
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->id }}"
-                                    @if ($category->id == old('myselect', $product->category_id))
-                                        selected="selected"
-                                    @endif
-                                    >{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-4">
-                        <label class="block text-sm">Existing Images</label>
-                        <div class="flex flex-wrap gap-4">
-                            @foreach ($product->multiimages as $image)
-                                <div class="flex flex-col items-center">
-                                    <img src="{{ asset('upload/products/' . $image->name) }}" 
-                                        alt="Product Image" class="h-24 w-24 object-cover mb-2">
-                                    <label>
-                                        <input type="checkbox" name="delete_images[]" value="{{ $image->id }}">
-                                        Delete
-                                    </label>
-                                </div>
-                            @endforeach
-                        </div>
-                        </div>
-
-                        <div class="mb-4">
-                        <label for="image" class="block text-sm">Add New Images</label>
-                        <input 
-                            type="file" 
-                            name="images[]" 
-                            id="image" 
-                            class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-400 focus:ring focus:ring-emerald-800 focus:ring-opacity-30" 
-                            multiple
-                        >
+                            <label for="image" class="block text-sm">Product Images</label>
+                            <input 
+                                type="file" 
+                                name="images[]" 
+                                id="image" 
+                                class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-400 focus:ring focus:ring-emerald-800 focus:ring-opacity-30" 
+                                multiple
+                            >
                         </div>
                         <div class="mt-4">
                             <button 
                                 type="submit" 
                                 class="bg-emerald-800 text-white px-4 py-2 hover:bg-emerald-600"
                             >
-                                Update Product
+                                Create Product
                             </button>
                         </div>
                     </form>

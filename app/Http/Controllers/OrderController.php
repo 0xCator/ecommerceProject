@@ -11,4 +11,9 @@ class OrderController extends Controller
         return view('user.order-panel', compact('orders'));
     }
 
+    public function displayAllOrders() {
+        $orders = Order::with('orderItems.product')->get();
+        return view('admin.orders', compact('orders'));
+    }
+
 }

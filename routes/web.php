@@ -43,6 +43,9 @@ Route::middleware('auth')->group(function () {
             Route::post('/user/cart/remove/{id}', [CartController::class, 'remove'])->name('user.cart.remove');
             Route::post('/user/cart/place-order', [CartController::class, 'placeOrder'])->name('user.cart.place-order');
 
+            Route::get('/payment', function () {
+                return view('user.payment'); // Redirects to the payment blade
+            })->name('payment.page');
         });
 
     });

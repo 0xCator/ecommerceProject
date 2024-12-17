@@ -65,13 +65,13 @@
             <!-- Products Section -->
             <main class="flex-1">
                 <!-- Search Bar and Reset -->
-                <div class="flex justify-between items-center mb-6 bg-white p-4 rounded-lg shadow-md">
+                <div class="flex justify-between items-center mb-6 bg-white p-4 shadow-md">
                     <form action="{{ route('user.dashboard') }}" method="GET" class="flex w-full">
                         <input type="text" name="search" placeholder="Search products..." 
                             value="{{ request('search') }}"
-                            class="w-full border rounded-l px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            class="w-full border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <button type="submit" 
-                                class="bg-blue-600 text-white px-4 rounded-r hover:bg-blue-700">
+                                class="bg-blue-600 text-white px-4 hover:bg-blue-700">
                             Search
                         </button>
                     </form>
@@ -84,7 +84,7 @@
                 <!-- Product Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     @forelse($products as $product)
-                        <div class="bg-white shadow-md p-4 hover:shadow-lg transition rounded-lg">
+                        <div class="bg-white shadow-md p-4 hover:shadow-lg transition">
                             <!-- Multiimage Carousel -->
                             <div x-data="{ currentImage: 0 }" class="relative mb-4">
                                 <div class="relative w-full h-48">
@@ -92,17 +92,17 @@
                                         <img x-show="currentImage === index" 
                                             :src="'{{ asset('upload/products/') }}/' + image.name" 
                                             alt="{{ $product->name }}" 
-                                            class="w-full h-48 object-cover rounded-md">
+                                            class="w-full h-48 object-cover">
                                     </template>
                                 </div>
 
                                 <!-- Navigation Buttons -->
                                 <button @click="currentImage = (currentImage - 1 + {{ $product->multiimages->count() }}) % {{ $product->multiimages->count() }}"
-                                        class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 rounded-full shadow-md hover:bg-gray-700">
+                                        class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 shadow-md hover:bg-gray-700">
                                     &larr;
                                 </button>
                                 <button @click="currentImage = (currentImage + 1) % {{ $product->multiimages->count() }}"
-                                        class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 rounded-full shadow-md hover:bg-gray-700">
+                                        class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 shadow-md hover:bg-gray-700">
                                     &rarr;
                                 </button>
                             </div>

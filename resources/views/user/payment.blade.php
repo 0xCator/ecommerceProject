@@ -7,7 +7,7 @@
 
         <!-- Payment Form -->
         <div class="container mx-auto flex justify-center">
-            <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
+            <div class="bg-white p-6 shadow-md w-full max-w-lg">
                 <form action="{{ route('user.cart.place-order') }}" method="POST">
                     @csrf
 

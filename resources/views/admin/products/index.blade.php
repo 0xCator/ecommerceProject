@@ -1,32 +1,26 @@
 <x-app-layout>
     <div class="bg-gray-100 min-h-screen">
-        <!-- User Dashboard Header -->
-        <div class="bg-white shadow-md p-6 mb-6 flex justify-between items-center">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-800 ml-16 pl-2">Admin Dashboard</h1>
-            </div>
-        </div>
 
         <!-- Main Content -->
-        <div class="container mx-auto flex flex-col lg:flex-row gap-6">
+        <div class="container mx-auto flex flex-col lg:flex-row gap-6 mt-8 min-h-screen">
             <!-- Sidebar -->
-            <aside class="bg-white p-6 shadow-md w-full lg:w-1/4">
+            <aside class="bg-white p-6 shadow-md w-full lg:w-1/4 h-auto lg:h-full lg:sticky top-0">
                 <ul class="space-y-2">
                     <li>
                         <a href="{{ route('products.index') }}" 
-                           class="text-blue-600 hover:underline">
+                        class="text-blue-600 hover:underline">
                             Products
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('categories.index') }}" 
-                           class="text-blue-600 hover:underline">
+                        class="text-blue-600 hover:underline">
                             Categories
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('admin.orders') }}" 
-                           class="text-blue-600 hover:underline">
+                        class="text-blue-600 hover:underline">
                             Orders
                         </a>
                     </li>

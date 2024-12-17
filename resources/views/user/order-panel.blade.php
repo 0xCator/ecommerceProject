@@ -5,7 +5,7 @@
 
         <!-- Orders Loop -->
         @forelse($orders as $order)
-            <div class="bg-white shadow-lg mb-6 p-6">
+            <div class="bg-white shadow-md mb-6 p-6">
                 <!-- Order Header -->
                 <div class="flex justify-between items-center border-b pb-4 mb-4">
                     <h5 class="text-xl font-semibold">Order ID: {{ $order->id }}</h5>

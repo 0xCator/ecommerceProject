@@ -3,7 +3,7 @@
         <!-- Title -->
         <h1 class="text-3xl font-bold mb-6 text-center">Your Shopping Cart</h1>
         <!-- Cart Table -->
-        <div class="overflow-x-auto shadow-lg">
+        <div class="overflow-x-auto shadow-md">
             <table class="w-full text-sm text-left text-gray-500" style="background-color: #f9f9f9;">
                 <!-- Table Header -->
                 <thead class="text-xs text-gray-700 uppercase" style="background-color: #e5e7eb;">

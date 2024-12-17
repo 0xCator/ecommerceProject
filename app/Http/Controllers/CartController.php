@@ -17,23 +17,27 @@ class CartController extends Controller
     public function displayCart()
     {
         $cart = Cart::where('user_id', auth()->id())->first();
- 
+        $outOfStock = false;
+    
         if ($cart) {
             $orderItems = $cart->orderItems()->with('product')->get();
     
-            // Check stock for each product
             foreach ($orderItems as $item) {
                 $product = $item->product;
+    
+                // Check if the cart quantity exceeds available stock
                 if ($product->stock < $item->quantity) {
-                    $item->note = "Stock unavailable. Current stock: {$product->stock}";
+                    $item->note = "Insufficient stock: Only {$product->stock} left.";
+                    $outOfStock = true;
                 }
             }
         } else {
             $orderItems = []; // Ensure it's an array if no cart exists
         }
     
-        return view('user.cart-panel', compact('orderItems'));
+        return view('user.cart-panel', compact('orderItems', 'outOfStock'));
     }
+    
     
 
     // Update Cart Item

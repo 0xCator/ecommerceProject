@@ -20,51 +20,58 @@
                 <!-- Table Body -->
                 <tbody>
                     @foreach ($orderItems as $item)
-                        <tr class="border-b" style="background-color: #ffffff;">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                {{ $item->product->name }}
-                            </th>
-                            <td class="px-6 py-4">
-                                <form action="{{ route('user.cart.update', $item->id) }}" method="POST" class="flex items-center">
-                                    @csrf
-                                    <input type="number" 
-                                        name="quantity" 
-                                        value="{{ $item->quantity }}" 
-                                        min="1" 
-                                        class="w-16 border-gray-300 text-center"
-                                    >
-                                    <button type="submit" 
+                    <tr class="border-b" style="background-color: #ffffff;">
+                        <!-- Product Name -->
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                            {{ $item->product->name }}
+                            @if ($item->product->stock == 0)
+                                <span class="text-red-600 font-bold">(Out of Stock)</span>
+                            @endif
+                        </th>
+                
+                        <!-- Quantity Input -->
+                        <td class="px-6 py-4">
+                            <form action="{{ route('user.cart.update', $item->id) }}" method="POST" class="flex items-center">
+                                @csrf
+                                <input type="number" 
+                                       name="quantity" 
+                                       value="{{ $item->quantity }}" 
+                                       min="1" 
+                                       max="{{ $item->product->stock > 0 ? $item->product->stock : $item->quantity }}"
+                                       class="w-16 border-gray-300 text-center"
+                                >
+                                <button type="submit" 
                                         class="ml-2 px-2 py-1 text-white bg-blue-600 hover:bg-blue-700">
-                                        Update
-                                    </button>
-                                </form>
-                            </td>
-                            <td class="px-6 py-4">
-                                ${{ number_format($item->product->price, 2) }}
-                            </td>
-                            <td class="px-6 py-4">
-                                ${{ number_format($item->price, 2) }}
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <form action="{{ route('user.cart.remove', $item->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" 
+                                    Update
+                                </button>
+                            </form>
+                            @if (isset($item->note)) <!-- Alert message if stock is insufficient -->
+                                <p class="text-red-600 text-sm mt-1">{{ $item->note }}</p>
+                            @endif
+                        </td>
+                
+                        <!-- Price (Per Unit) -->
+                        <td class="px-6 py-4">
+                            ${{ number_format($item->product->price, 2) }}
+                        </td>
+                
+                        <!-- Total Price -->
+                        <td class="px-6 py-4">
+                            ${{ number_format($item->price, 2) }}
+                        </td>
+                
+                        <!-- Remove Button -->
+                        <td class="px-6 py-4 text-center">
+                            <form action="{{ route('user.cart.remove', $item->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" 
                                         class="text-red-600 hover:underline">
-                                        Remove
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-
-                        <!-- Notes Row -->
-                        @if (isset($item->note))
-                            <tr>
-                                <td colspan="5" class="text-red-600 italic text-sm py-2 px-6">
-                                    {{ $item->note }}
-                                </td>
-                            </tr>
-                        @endif
-                    @endforeach
+                                    Remove
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach                
                 </tbody>
 
                 <!-- Table Footer -->
@@ -75,13 +82,15 @@
                             ${{ number_format($orderItems->sum('price'), 2) }}
                         </td>
                         <td class="py-4 px-6 text-center">
+                            <!-- Disable the "Place Order" button if any item is out of stock -->
                             <form action="{{ route('user.cart.place-order') }}" method="POST">
                                 @csrf
                                 <button type="submit" 
-                                    class="px-4 py-2 bg-emerald-800 text-white hover:bg-emerald-500">
+                                        class="px-4 py-2 bg-emerald-800 text-white hover:bg-emerald-500 {{ $outOfStock ? 'opacity-50 cursor-not-allowed' : '' }}" 
+                                        {{ $outOfStock ? 'disabled' : '' }}>
                                     Place Order
                                 </button>
-                            </form>
+                            </form>                            
                         </td>
                     </tr>
                 </tfoot>
@@ -91,9 +100,16 @@
         <!-- Back to Shopping Button -->
         <div class="mt-6 text-center">
             <a href="{{ route('user.dashboard') }}" 
-                class="inline-block px-4 py-2 text-white bg-gray-600 hover:bg-gray-700">
+               class="inline-block px-4 py-2 text-white bg-gray-600 hover:bg-gray-700">
                 Back to Shopping
             </a>
         </div>
+
+        <!-- Out of Stock Warning -->
+        @if ($orderItems->contains(fn($item) => $item->product->stock == 0))
+            <div class="mt-4 text-red-600 font-semibold text-center">
+                <p>Some products in your cart are out of stock and cannot be updated or ordered.</p>
+            </div>
+        @endif
     </div>
 </x-app-layout>

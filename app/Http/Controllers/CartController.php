@@ -32,7 +32,7 @@ class CartController extends Controller
                 }
             }
         } else {
-            $orderItems = []; // Ensure it's an array if no cart exists
+            $orderItems = NULL; // Ensure it's an array if no cart exists
         }
     
         return view('user.cart-panel', compact('orderItems', 'outOfStock'));

@@ -2,7 +2,6 @@
     <div class="container mx-auto p-6">
         <!-- Title -->
         <h1 class="text-3xl font-bold mb-6 text-center">Your Shopping Cart</h1>
-
         <!-- Cart Table -->
         <div class="overflow-x-auto shadow-lg">
             <table class="w-full text-sm text-left text-gray-500" style="background-color: #f9f9f9;">
@@ -12,7 +11,7 @@
                         <th scope="col" class="px-6 py-3">Product</th>
                         <th scope="col" class="px-6 py-3">Quantity</th>
                         <th scope="col" class="px-6 py-3">Price (Per Unit)</th>
-                        <th scope="col" class="px-6 py-3">Total</th>
+                        <th scope="col" class="px-6 py-3">Subtotal</th>
                         <th scope="col" class="px-6 py-3 text-center">Actions</th>
                     </tr>
                 </thead>
@@ -86,8 +85,8 @@
                             <form action="{{ route('payment.page') }}" method="GET">
                                 @csrf
                                 <button type="submit" 
-                                        class="px-4 py-2 bg-emerald-800 text-white hover:bg-emerald-500 {{ $outOfStock ? 'opacity-50 cursor-not-allowed' : '' }}" 
-                                        {{ $outOfStock ? 'disabled' : '' }}>
+                                        class="px-4 py-2 bg-emerald-800 text-white hover:bg-emerald-500 {{ $outOfStock || $orderItems->isEmpty() ? 'opacity-50 cursor-not-allowed' : '' }}" 
+                                        {{ $outOfStock || $orderItems->isEmpty() ? 'disabled' : '' }}>
                                     Place Order
                                 </button>
                             </form>                            

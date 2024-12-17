@@ -98,7 +98,7 @@
                             >{{ old('description') }}</textarea>
                         </div>
                         <div class="mb-4">
-                            <label for="category_id" class="block text-sm">Category ID</label>
+                            <label for="category_id" class="block text-sm">Category</label>
                             <select 
                                 name="category_id" 
                                 id="category_id" 
